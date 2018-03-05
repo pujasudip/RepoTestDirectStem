@@ -25,13 +25,16 @@ export class AddUserComponent implements OnInit {
         // console.log(`Adding firstname: ${firstName.value}, lastname: ${lastName.value},
         // Email: ${email.value}, Password: ${password.value}`);
         const newUser = new User({
-            id: this.counter,
+            id: this.counter++,
             firstName: `${firstName.value}`,
             lastName: `${lastName.value}`,
             email: `${email.value}`,
             password: `${password.value}`
         });
-        // console.log(newUser);
-        this.router.navigate(['/demo']);
+        this.userService.createUser(newUser).subscribe(
+            (res) => console.log(res)
+        );
+        console.log(newUser);
+        this.router.navigate(['/admin']);
     }
 }

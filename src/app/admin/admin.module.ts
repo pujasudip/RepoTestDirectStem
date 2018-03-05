@@ -3,11 +3,13 @@ import {AddUserComponent} from './add-user/add-user.component';
 import {HttpModule} from '@angular/http';
 import {AdminComponent} from './admin.component';
 import {CommonModule} from '@angular/common';
+import { EditUserComponent } from './edit-user/edit-user.component';
 
 @NgModule({
     declarations: [
         AdminComponent,
-        AddUserComponent
+        AddUserComponent,
+        EditUserComponent,
     ],
     imports: [
         HttpModule,
