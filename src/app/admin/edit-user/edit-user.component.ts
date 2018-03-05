@@ -9,15 +9,18 @@ import {ActivatedRoute, Router} from '@angular/router';
   styleUrls: ['./edit-user.component.css']
 })
 export class EditUserComponent implements OnInit {
-  @Input() userId;
-  @Input() userE: User;
+  userId: number;
+  userE: User;
 
   constructor(private userService: UserService, private router: Router, private routerAct: ActivatedRoute) { }
 
   ngOnInit() {
-    this.routerAct.queryParams['id'];
-    console.log('test:' + this.userId);
+    this.userId = this.routerAct.snapshot.params['id'];
+    this.userService.getUserById(this.userId).subscribe(
+        (userToEdit) => this.userE = userToEdit.user,
+    )
   }
+
   onSave() {
     this.router.navigate(['/admin']);
   }
