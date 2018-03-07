@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {UserService} from '../shared/services/user.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import 'rxjs/add/operator/map';
+import {User} from '../shared/models/user.model';
 // import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
@@ -10,7 +11,7 @@ import 'rxjs/add/operator/map';
     styleUrls: ['./admin.component.css']
 })
 export class AdminComponent implements OnInit {
-    users: any;
+    users: User[];
     closeResult: string;
 
     constructor(private userService: UserService,
@@ -21,7 +22,7 @@ export class AdminComponent implements OnInit {
     ngOnInit() {
         this.userService.getUsers().subscribe(
             (users) => {
-                this.users = users;
+                this.users = users.users;
             }
         );
     }
@@ -36,12 +37,22 @@ export class AdminComponent implements OnInit {
 
     onDeleteUser(id: number) {
         this.userService.deleteUserById(id).subscribe(
-            (users) => {
-                this.users = users;
+            (u) => {
+            //     // find the index of u inside this.users (if there is any)
+                const index = this.users.findIndex((user: User) => user.id === u.id);
+            //     // if the index is 0 or greater, that means u exists in this.users
+            //     // and we need to remove u from this.users by splicing
+                if (index >= 0) {
+                    this.users.splice(index, 1);
+                }
             },
         (error) => console.log(error),
             // () =>  console.log('complete'),
         );
+    }
+
+    onDetail() {
+        this.router.navigate(['/detail']);
     }
 
     // open(content, userId) {

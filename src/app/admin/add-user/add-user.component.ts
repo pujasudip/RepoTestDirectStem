@@ -1,7 +1,8 @@
-import {Component, OnInit, Input} from '@angular/core';
+import {Component, OnInit, Input, ViewChild} from '@angular/core';
 import {Router} from '@angular/router';
 import {User} from '../../shared/models/user.model';
 import {UserService} from '../../shared/services/user.service';
+import {NgForm} from '@angular/forms';
 
 @Component({
     selector: 'app-add-user',
@@ -29,12 +30,14 @@ export class AddUserComponent implements OnInit {
             firstName: `${firstName.value}`,
             lastName: `${lastName.value}`,
             email: `${email.value}`,
-            password: `${password.value}`
+            password: `${password.value}`,
         });
         this.userService.createUser(newUser).subscribe(
             (res) => console.log(res)
         );
-        console.log(newUser);
+        this.router.navigate(['/admin']);
+    }
+    onCancel() {
         this.router.navigate(['/admin']);
     }
 }
