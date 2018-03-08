@@ -12,6 +12,7 @@ import {NgForm} from '@angular/forms';
 export class AddUserComponent implements OnInit {
     @Input() name: string; // Added Input annotation
     counter = 20;
+    @ViewChild('f') signupForm: NgForm;
 
     constructor(private userService: UserService,
                 private router: Router) {
@@ -39,5 +40,23 @@ export class AddUserComponent implements OnInit {
     }
     onCancel() {
         this.router.navigate(['/admin']);
+    }
+
+    onSubmit() {
+        if (this.signupForm.valid && (this.signupForm.value.password === this.signupForm.value.cPassword)) {
+            const newUser = new User(
+                {
+                    id: this.counter++,
+                    firstName: this.signupForm.value.firstName,
+                    lastName: this.signupForm.value.lastName,
+                    email: this.signupForm.value.email,
+                    password: this.signupForm.value.password
+                }
+            )
+            this.userService.createUser(newUser).subscribe(
+                (us) => console.log(us)
+            )
+            this.router.navigate(['/admin']);
+        }
     }
 }

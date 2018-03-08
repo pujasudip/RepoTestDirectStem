@@ -7,3 +7,9 @@
 .myForm{
     margin-left: 45%;
 }
+input.ng-touched.ng-invalid {
+    border: 1px red solid;
+}
+.passError.ng-touched {
+    border: 1px red solid;
+}
