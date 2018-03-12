@@ -19,14 +19,10 @@ export class UserSessionComponent implements OnInit {
 }
 
   ngOnInit() {
-      this.initUser();
+      this.initUserBar();
   }
 
-  onBackToAdmin() {
-      this.router.navigate(['/admin']);
-  }
-
-  initUser(): void {
+  initUserBar(): void {
       const margin = {top: 10, right: 30, bottom: 30, left: 30},
           width = 500 - margin.left - margin.right,
           height = 300 - margin.top - margin.bottom;
@@ -97,6 +93,10 @@ export class UserSessionComponent implements OnInit {
           .attr('class', 'x axis')
           .attr('transform', 'translate(0,' + height + ')')
           .call(xAxis);
+  }
+
+  initUserLinear(): void {
+
   }
 
 }
