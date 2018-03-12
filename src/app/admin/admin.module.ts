@@ -4,12 +4,14 @@ import {HttpModule} from '@angular/http';
 import {AdminComponent} from './admin.component';
 import {CommonModule} from '@angular/common';
 import { EditUserComponent } from './edit-user/edit-user.component';
+import { UserSessionComponent } from './user-session/user-session.component';
 
 @NgModule({
     declarations: [
         AdminComponent,
         AddUserComponent,
         EditUserComponent,
+        UserSessionComponent,
     ],
     imports: [
         HttpModule,

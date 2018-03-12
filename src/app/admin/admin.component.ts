@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {UserService} from '../shared/services/user.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import 'rxjs/add/operator/map';
+import {User} from '../shared/models/user.model'
 // import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
@@ -10,7 +11,7 @@ import 'rxjs/add/operator/map';
     styleUrls: ['./admin.component.css']
 })
 export class AdminComponent implements OnInit {
-    users: any;
+    users: User[];
     closeResult: string;
 
     constructor(private userService: UserService,
@@ -19,11 +20,22 @@ export class AdminComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.userService.getUsers().subscribe(
-            (users) => {
-                this.users = users;
-            }
-        );
+        this.getUsers();
+    }
+
+    getUsers() {
+        this.userService.getUsers()
+            .subscribe(
+                (users: User[]) => this.users = users,
+                () => {
+                    this.users = [];
+                    console.log('failed to load users, defaulting to empty :', []);
+                }
+            );
+    }
+
+    onBackToAdmin() {
+        this.router.navigate(['/admin']);
     }
 
     onAdd() {
@@ -32,6 +44,10 @@ export class AdminComponent implements OnInit {
 
     onEdit(id) {
         this.router.navigate(['/edit/' + id]);
+    }
+
+    onUserSess() {
+        this.router.navigate(['admin/user-session']);
     }
 
     onDeleteUser(id: number) {

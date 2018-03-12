@@ -19,8 +19,10 @@
                 <br>
                 <div class="btnGrp">
                     <!--<a [routerLink]="['admin']" class="ui button cancel">Cancel</a> -->
-                    <button (click)="addUser(newfirstName, newlastName, newemail, newpassword)" class="ui button save">Add User
+                    <button (click)="addUser(newfirstName, newlastName, newemail, newpassword)" class="ui button save">Save
                     </button>
+
+                    <button (click)="onBackToAdmin()" class="btn-info">Cancel</button>
                 </div>
             </div>
         </form>
