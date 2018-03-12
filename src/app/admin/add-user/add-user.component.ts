@@ -1,7 +1,8 @@
-import {Component, OnInit, Input} from '@angular/core';
+import {Component, OnInit, Input, ViewChild} from '@angular/core';
 import {Router} from '@angular/router';
 import {User} from '../../shared/models/user.model';
 import {UserService} from '../../shared/services/user.service';
+import {NgForm} from '@angular/forms';
 
 @Component({
     selector: 'app-add-user',
@@ -11,6 +12,7 @@ import {UserService} from '../../shared/services/user.service';
 export class AddUserComponent implements OnInit {
     @Input() name: string; // Added Input annotation
     counter = 20;
+    @ViewChild('f') signupForm: NgForm;
 
     constructor(private userService: UserService,
                 private router: Router) {
@@ -29,12 +31,32 @@ export class AddUserComponent implements OnInit {
             firstName: `${firstName.value}`,
             lastName: `${lastName.value}`,
             email: `${email.value}`,
-            password: `${password.value}`
+            password: `${password.value}`,
         });
         this.userService.createUser(newUser).subscribe(
             (res) => console.log(res)
         );
-        console.log(newUser);
         this.router.navigate(['/admin']);
+    }
+    onCancel() {
+        this.router.navigate(['/admin']);
+    }
+
+    onSubmit() {
+        if (this.signupForm.valid && (this.signupForm.value.password === this.signupForm.value.cPassword)) {
+            const newUser = new User(
+                {
+                    id: this.counter++,
+                    firstName: this.signupForm.value.firstName,
+                    lastName: this.signupForm.value.lastName,
+                    email: this.signupForm.value.email,
+                    password: this.signupForm.value.password
+                }
+            )
+            this.userService.createUser(newUser).subscribe(
+                (us) => console.log(us)
+            )
+            this.router.navigate(['/admin']);
+        }
     }
 }

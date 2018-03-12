@@ -10,14 +10,15 @@
         </tr>
         </thead>
         <tbody>
-        <tr *ngFor="let user of users.users">
+        <tr *ngFor="let user of users">
             <td>{{user.firstName}}</td>
             <td>{{user.lastName}}</td>
             <td>{{user.email}}</td>
             <td class="editDeleteBtns">
                 <button (click)="onEdit(user.id)" class="btn btn-info">Edit</button>
                 <button class="btn btn-danger" (click)="onDeleteUser(user.id)">Delete</button>
-                <button class="btn btn-info" (click)="onUserSess()">Details</button>
+                <!--<button class="btn btn-info" (click)="onUserSess()">Details</button>-->
+                <button class="btn btn-info" (click)="onDetail()">Details</button>
             </td>
         </tr>
         </tbody>

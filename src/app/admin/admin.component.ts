@@ -20,22 +20,31 @@ export class AdminComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.getUsers();
+        this.userService.getUsers().subscribe(
+            (users) => {
+                this.users = users.users;
+            }
+        );
     }
 
-    getUsers() {
-        this.userService.getUsers()
-            .subscribe(
-                (users: User[]) => this.users = users,
-                () => {
-                    this.users = [];
-                    console.log('failed to load users, defaulting to empty :', []);
-                }
-            );
-    }
+    // getUsers() {
+    //     this.userService.getUsers()
+    //         .subscribe(
+    //             (users: User[]) => this.users = users,
+    //             () => {
+    //                 this.users = [];
+    //                 console.log('failed to load users, defaulting to empty :', []);
+    //             }
+    //         );
+    // }
 
     onBackToAdmin() {
         this.router.navigate(['/admin']);
+        // this.userService.getUsers().subscribe(
+        //     (users) => {
+        //         this.users = users.users;
+        //     }
+        // );
     }
 
     onAdd() {
@@ -52,12 +61,22 @@ export class AdminComponent implements OnInit {
 
     onDeleteUser(id: number) {
         this.userService.deleteUserById(id).subscribe(
-            (users) => {
-                this.users = users;
+            (u) => {
+            //     // find the index of u inside this.users (if there is any)
+                const index = this.users.findIndex((user: User) => user.id === u.id);
+            //     // if the index is 0 or greater, that means u exists in this.users
+            //     // and we need to remove u from this.users by splicing
+                if (index >= 0) {
+                    this.users.splice(index, 1);
+                }
             },
         (error) => console.log(error),
             // () =>  console.log('complete'),
         );
+    }
+
+    onDetail() {
+        this.router.navigate(['/detail']);
     }
 
     // open(content, userId) {

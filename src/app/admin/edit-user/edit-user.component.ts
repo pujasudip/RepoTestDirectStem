@@ -15,14 +15,28 @@ export class EditUserComponent implements OnInit {
   constructor(private userService: UserService, private router: Router, private routerAct: ActivatedRoute) { }
 
   ngOnInit() {
+      this.userE = { id: 0, firstName: '', lastName: '', email: '', password: '', description: ''};
     this.userId = this.routerAct.snapshot.params['id'];
+    console.log('userId:', + this.userId)
     this.userService.getUserById(this.userId).subscribe(
         (userToEdit) => this.userE = userToEdit.user,
     )
   }
 
-  onSave() {
-    this.router.navigate(['/admin']);
+  onSave(firstName: HTMLInputElement, lastName: HTMLInputElement, email: HTMLInputElement, password: HTMLInputElement) {
+      const editedUser = new User({
+          id: this.userId,
+          firstName: `${firstName.value}`,
+          lastName: `${lastName.value}`,
+          email: `${email.value}`,
+          password: `${password.value}`,
+      });
+
+      this.userService.updateUserById(this.userId, editedUser).subscribe(
+          () => console.log(editedUser),
+          (error) => console.log(error),
+      );
+      this.router.navigate(['/admin']);
   }
 
   onCancel() {
